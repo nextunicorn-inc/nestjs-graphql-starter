@@ -6,6 +6,7 @@ import {
   patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
 import { MainExceptionFilter } from '~/mainExceptionFilter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   // https://github.com/odavid/typeorm-transactional-cls-hooked
@@ -21,6 +22,16 @@ async function bootstrap() {
 
   // https://docs.nestjs.com/security/cors
   app.enableCors();
+
+  // https://docs.nestjs.com/openapi/introduction
+  const config = new DocumentBuilder()
+    .setTitle('NestJS Starter')
+    .setDescription('Example')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   await app.listen(3000);
 }
 bootstrap();
