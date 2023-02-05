@@ -14,7 +14,7 @@ export class UserFacade {
     private readonly authService: AuthService,
   ) {}
 
-  async createUser(createUserDto: CreateUserRequest) {
+  async register(createUserDto: CreateUserRequest) {
     return this.userService.createUser(createUserDto);
   }
 

@@ -18,6 +18,9 @@ async function bootstrap() {
   // https://docs.nestjs.com/exception-filters#exception-filters-1
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new MainExceptionFilter(httpAdapter));
+
+  // https://docs.nestjs.com/security/cors
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap();

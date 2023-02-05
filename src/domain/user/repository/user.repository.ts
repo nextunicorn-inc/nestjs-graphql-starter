@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './entity/user.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { UserEntity } from './user.entity';
+import { FindManyOptions, FindOptionsWhere, Repository } from 'typeorm';
 import { PromiseResult, Result } from '@leejuyoung/result';
 import { UserDto } from '../dto/user.dto';
 import { convertTypeOrmErrorToDataError } from '~/infrastructure/utils/repository/convertTypeOrmErrorToDataError';
@@ -14,8 +14,23 @@ export class UserRepository {
     private userOrmRepository: Repository<UserEntity>,
   ) {}
 
+  async findMany(
+    findData: FindManyOptions<UserDto>,
+  ): PromiseResult<UserDto[], Error> {
+    return Result.of(
+      this.userOrmRepository
+        .find(findData)
+        .then((entity) => {
+          return entity.map((each) => each.toDto());
+        })
+        .catch((e) => {
+          throw convertTypeOrmErrorToDataError(e, 'user');
+        }),
+    );
+  }
+
   async findOne(
-    findData: FindOptionsWhere<UserEntity>,
+    findData: FindOptionsWhere<UserDto>,
   ): PromiseResult<UserDto, DataNotFoundError> {
     return Result.of(
       this.userOrmRepository

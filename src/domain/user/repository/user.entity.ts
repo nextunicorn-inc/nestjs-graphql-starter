@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 
-import { UserDto } from '../../dto/user.dto';
+import { UserDto } from '../dto/user.dto';
 import { RoleType } from '~/@shared/enums/roleType';
 
 @Entity()
