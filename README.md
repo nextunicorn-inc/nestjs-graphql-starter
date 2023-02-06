@@ -1,4 +1,5 @@
 # NestJS Restful Boilerplate
+여기에는 아래 Philosophy가 녹아있는 Description이 있으면 어떨까요..?
 
 <strong> 시작하는 서비스를 위한 NestJS Boilerplate </strong>
 
@@ -106,10 +107,27 @@ Domain은 어려운 개념입니다. DDD에서 차용된 개념인 `domain` 은 
 외부 리소스 등을 사용하는 서비스들이 존재합니다. 또한, 여러 서비스에서 공통적으로 사용되는 유틸 및 리소스가 여기 정의됩니다.
 
 ### Result Pattern
+```javascript
+ async findFollowerIdsByUserId(toUserId: number): Promise<Result<number[]>> {
+   const result = await this.userFollowRepository.findMany({
+     where: {
+       toUserId,
+     },
+   });
+   if (result.isFailure()) {
+     return Result.failure(result.exception());
+   }
+   return Result.success(result.getOrThrow().map((v) => v.fromUserId));
+ }
+```
 
 [Result Pattern](https://medium.com/@cummingsi1993/the-operation-result-pattern-a-simple-guide-fe10ff959080)은 정규화된 Pattern은 아닙니다.
 `Result Pattern`은 기존의 error를 throw 하는 방식이 아닌, result 객채로 wrapping을 해 `value` 또는 `error` 를 상위로 전파하는 기법입니다.
 이렇게 wrapping 된 값이 상위로 전파된다면, `상위 Layer`에서는 `하위 Layer`에서 발생하는 `error`에 대한 정보를 쉽게 인지할 수 있으며, 여러 개발자들이 협업할 때, 큰 도움이 됩니다.
+
+참고 
+- https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-result/
+- https://toss.tech/article/kotlin-result
 
 ## 문의 및 PR
 
