@@ -25,14 +25,14 @@ export class ConfigureService {
           join(__dirname, `../../@config/${process.env.PROFILE || 'dev'}.yaml`),
           'utf8',
         ),
-      ),
+      ) as unknown as object,
     ) as Record<string, unknown>;
   }
 
   get typeORMConfig(): TypeOrmModuleOptions {
-    return this.config.typeORM;
+    return this.config.typeORM as unknown as TypeOrmModuleOptions;
   }
   get jwtConfig(): JwtModuleOptions {
-    return this.config.jwt as unknown as any;
+    return this.config.jwt as unknown as JwtModuleOptions;
   }
 }
