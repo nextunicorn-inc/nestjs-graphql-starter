@@ -843,10 +843,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@leejuyoung/result@npm:^0.3.9":
-  version: 0.3.9
-  resolution: "@leejuyoung/result@npm:0.3.9"
-  checksum: 1114c4a04a1111ec665a76d9dff74ffd44553873e1bbd50a5de8f9639bb85e1828e2f71ba8a1c6bd84ac5101074db15c4e6484918c65bd39076bb0ddbc552a91
+"@leejuyoung/result@npm:^0.3.10":
+  version: 0.3.10
+  resolution: "@leejuyoung/result@npm:0.3.10"
+  checksum: a6c49419ef4352d2346a8fdd54f914d41bae511a86d929339f86a7707c0cec272944ecaa24324e08b4f86a276489b328369f17cfdd908e42eaba42bc0d32b914
   languageName: node
   linkType: hard
 
@@ -1148,7 +1148,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@nextunicorn/nestjs-restful-starter@workspace:."
   dependencies:
-    "@leejuyoung/result": ^0.3.9
+    "@leejuyoung/result": ^0.3.10
     "@nestjs/cli": ^9.1.9
     "@nestjs/common": ^9.3.1
     "@nestjs/core": ^9.3.1

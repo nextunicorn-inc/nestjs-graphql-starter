@@ -32,6 +32,7 @@ export class UserFacade {
     const user = userResult.getOrThrow();
 
     if (
+      !user.passwordHash ||
       !(await validatePasswordWithHash(
         createSessionsRequest.password,
         user.passwordHash,
