@@ -28,8 +28,9 @@ export class AuthService {
     );
 
     return {
-      expiresIn: this.configureService.jwtConfig.signOptions
-        .expiresIn as number,
+      expiresIn:
+        (this.configureService.jwtConfig.signOptions?.expiresIn as number) ||
+        3600,
       accessToken,
       refreshToken,
     };

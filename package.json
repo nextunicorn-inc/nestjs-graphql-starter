@@ -19,7 +19,7 @@
     "test:e2e": "ts-jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@leejuyoung/result": "^0.3.9",
+    "@leejuyoung/result": "^0.3.10",
     "@nestjs/common": "^9.3.1",
     "@nestjs/core": "^9.3.1",
     "@nestjs/jwt": "^10.0.1",

@@ -32,8 +32,8 @@ function asyncOnce<T, V extends any[] = []>(
   }
 
   wrappedFunction.isLoading = false;
-  wrappedFunction.instance = undefined;
-  wrappedFunction.error = undefined;
+  wrappedFunction.instance = undefined as any;
+  wrappedFunction.error = undefined as any;
   return wrappedFunction;
 }
 

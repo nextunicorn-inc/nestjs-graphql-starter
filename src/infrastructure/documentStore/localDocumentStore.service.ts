@@ -10,17 +10,17 @@ export class LocalDocumentStoreService extends DocumentStoreService {
   async putObject(key: string, buffer: Uint8Array): Promise<Result<void>> {
     try {
       await fs.writeFile(join(this.basePath, key), buffer);
-      return Result.of(true);
+      return Result.success();
     } catch (e) {
-      return Result.failure(e);
+      return Result.failure(e as Error);
     }
   }
   async deleteObject(key: string): Promise<Result<void>> {
     try {
       await fs.unlink(join(this.basePath, key));
-      return Result.success(void 0);
+      return Result.success();
     } catch (e) {
-      return Result.failure(e);
+      return Result.failure(e as Error);
     }
   }
 
@@ -38,7 +38,7 @@ export class LocalDocumentStoreService extends DocumentStoreService {
       const file = await fs.readFile(join(this.basePath, key));
       return Result.of(file);
     } catch (e) {
-      return Result.failure(e);
+      return Result.failure(e as Error);
     }
   }
 }
