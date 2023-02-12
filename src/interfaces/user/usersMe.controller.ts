@@ -18,20 +18,20 @@ import { UserOnly } from '~/interfaces/@decorator/userOnly';
 
 @Controller('users')
 @ApiTags('users')
-export class UsersController {
+export class UsersMeController {
   constructor(
     private readonly userFacade: UserFacade,
     private readonly userFollowFacade: UserFollowFacade,
   ) {}
 
-  @Get('me')
+  @Get('/me')
   @UserOnly()
   @HttpCode(HttpStatus.OK)
   async me(@User() user: UserDto): Promise<UserResponse> {
     return UserResponse.of(user);
   }
 
-  @Get('me/followers')
+  @Get('/me/followers')
   @UserOnly()
   @HttpCode(HttpStatus.OK)
   async myFollowers(@UserId() userId: number): Promise<UserResponse[]> {
@@ -43,7 +43,7 @@ export class UsersController {
       });
   }
 
-  @Get('me/followings')
+  @Get('/me/followings')
   @UserOnly()
   @HttpCode(HttpStatus.OK)
   async myFollowings(@UserId() userId: number): Promise<UserResponse[]> {

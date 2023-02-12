@@ -1,28 +1,13 @@
-import { Test } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { RestfulModule } from '~/interfaces/restfulModule';
-import { InMemoryTypeOrmModule } from '~/infrastructure/utils/forTest/inMemoryTypeOrmModule';
+import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { TestConfigureModule } from '~/infrastructure/utils/forTest/testConfigurationModule';
 import * as assert from 'assert';
-import { MainExceptionFilter } from '~/mainExceptionFilter';
-import { HttpAdapterHost } from '@nestjs/core';
+import { createE2ETestApp } from '~/infrastructure/forTest/createE2ETestApp';
 
 describe('UsersController', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    const moduleFixture = await Test.createTestingModule({
-      imports: [TestConfigureModule, InMemoryTypeOrmModule, RestfulModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    // https://docs.nestjs.com/techniques/validation#auto-validation
-    app.useGlobalPipes(new ValidationPipe());
-    // https://docs.nestjs.com/exception-filters#exception-filters-1
-    const { httpAdapter } = app.get(HttpAdapterHost);
-    app.useGlobalFilters(new MainExceptionFilter(httpAdapter));
-    await app.init();
+    app = await createE2ETestApp();
   });
 
   describe('user login test', () => {
@@ -128,6 +113,34 @@ describe('UsersController', () => {
         .set({ Authorization: `Bearer ${accessToken}` })
         .expect(200);
       assert.equal(response.body.length, 1);
+    });
+    it('GET /users/me/followers', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/users/me/followers')
+        .set({ Authorization: `Bearer ${accessToken}` })
+        .expect(200);
+      assert.equal(response.body.length, 0);
+    });
+    it('GET /users/:id/followers', async () => {
+      const response = await request(app.getHttpServer())
+        .get(`/users/${otherId}/followers`)
+        .set({ Authorization: `Bearer ${accessToken}` })
+        .expect(200);
+      assert.equal(response.body.length, 1);
+    });
+
+    it('DELETE /users/:id/followings', async () => {
+      await request(app.getHttpServer())
+        .delete('/users/' + otherId + '/followings')
+        .set({ Authorization: `Bearer ${accessToken}` })
+        .expect(200);
+    });
+    it('GET /users/:id/followings', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/users/me/followings')
+        .set({ Authorization: `Bearer ${accessToken}` })
+        .expect(200);
+      assert.equal(response.body.length, 0);
     });
   });
 

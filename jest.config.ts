@@ -3,6 +3,7 @@ import type { JestConfigWithTsJest } from 'ts-jest';
 import { pathsToModuleNameMapper } from 'ts-jest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+
 const tsconfig = JSON.parse(
   readFileSync(join(__dirname, './tsconfig.json'), 'utf-8'),
 );
@@ -11,8 +12,8 @@ const jestConfig: JestConfigWithTsJest = {
   preset: 'ts-jest',
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',
-  testRegex: '.*\\.spec\\.ts$',
-  collectCoverageFrom: ['**/*.(t|j)s'],
+  testRegex: '.*\\.(spec|test)\\.ts$',
+  collectCoverageFrom: ['src/**/*.ts'],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
   moduleNameMapper: pathsToModuleNameMapper(tsconfig.compilerOptions.paths, {

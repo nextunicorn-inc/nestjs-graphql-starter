@@ -3,7 +3,7 @@ function asyncOnce<T, V extends any[] = []>(
   interval = 50,
 ): (...args: V) => Promise<T> {
   async function wrappedFunction(...args: V): Promise<T> {
-    if (wrappedFunction.instance) {
+    if (wrappedFunction.isExecuted) {
       return wrappedFunction.instance;
     }
     if (wrappedFunction.isLoading) {
@@ -22,6 +22,7 @@ function asyncOnce<T, V extends any[] = []>(
     wrappedFunction.isLoading = true;
     try {
       wrappedFunction.instance = await loader(...args);
+      wrappedFunction.isExecuted = true;
       wrappedFunction.isLoading = false;
     } catch (e) {
       wrappedFunction.isLoading = false;
@@ -32,6 +33,7 @@ function asyncOnce<T, V extends any[] = []>(
   }
 
   wrappedFunction.isLoading = false;
+  wrappedFunction.isExecuted = false;
   wrappedFunction.instance = undefined as any;
   wrappedFunction.error = undefined as any;
   return wrappedFunction;
