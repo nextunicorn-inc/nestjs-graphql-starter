@@ -1,83 +1,82 @@
 import {
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
-  Param,
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserResponse } from '~/interfaces/@response/user.response';
 import { UserFacade } from '~/application/user/user.facade';
-import { UserOnly } from '~/interfaces/@decorator/userOnly';
-import { UserFollowFacade } from '~/application/user/userFollow.facade';
 import { UserId } from '~/interfaces/@decorator/userId';
+import { UserFollowFacade } from '~/application/user/userFollow.facade';
+import { UserOnly } from '~/interfaces/@decorator/userOnly';
 import { SocialFacade } from '~/application/social/social.facade';
+import { ParamInt } from '~/interfaces/@decorator/paramInt';
 
-@Controller('users/:id')
+@Controller('users')
 @ApiTags('users')
-export class UserOneController {
+export class UsersOtherController {
   constructor(
     private readonly userFacade: UserFacade,
     private readonly userFollowFacade: UserFollowFacade,
     private readonly socialFacade: SocialFacade,
   ) {}
 
-  @Get()
+  @Get('/:id')
   @HttpCode(HttpStatus.OK)
-  async one(@Param('id') id: string): Promise<UserResponse> {
+  async one(@ParamInt('id') id: number): Promise<UserResponse> {
     return UserResponse.of(
-      await this.userFacade
-        .findOneById(Number.parseInt(id, 10))
-        .then((v) => v.getOrThrow()),
+      await this.userFacade.findOneById(id).then((v) => v.getOrThrow()),
     );
   }
 
-  @Get('followers')
+  @Get('/:id/followers')
   @HttpCode(HttpStatus.OK)
-  async myFollowers(@Param('id') userId: string): Promise<UserResponse[]> {
+  async otherFollowers(
+    @ParamInt('id') userId: number,
+  ): Promise<UserResponse[]> {
     return this.userFollowFacade
-      .findFollowerUsersByUserId(Number.parseInt(userId, 10))
+      .findFollowerUsersByUserId(userId)
       .then((ret) => ret.getOrThrow())
       .then((users) => {
         return users.map((user) => UserResponse.of(user));
       });
   }
 
-  @Get('followings')
+  @Get('/:id/followings')
   @HttpCode(HttpStatus.OK)
-  async myFollowings(@Param('id') userId: string): Promise<UserResponse[]> {
+  async otherFollowings(
+    @ParamInt('id') userId: number,
+  ): Promise<UserResponse[]> {
     return this.userFollowFacade
-      .findFollowingUsersByUserId(Number.parseInt(userId, 10))
+      .findFollowingUsersByUserId(userId)
       .then((ret) => ret.getOrThrow())
       .then((users) => {
         return users.map((user) => UserResponse.of(user));
       });
   }
 
-  @Post('followings')
+  @Post('/:id/followings')
   @UserOnly()
   @HttpCode(HttpStatus.CREATED)
   async follow(
     @UserId() meId: number,
-    @Param('id') userId: string,
+    @ParamInt('id') userId: number,
   ): Promise<boolean> {
-    await this.socialFacade
-      .follow(meId, Number.parseInt(userId, 10))
-      .then((v) => v.getOrThrow());
+    await this.socialFacade.follow(meId, userId).then((v) => v.getOrThrow());
     return true;
   }
 
-  @Post('followings')
+  @Delete('/:id/followings')
   @UserOnly()
   @HttpCode(HttpStatus.OK)
   async unfollow(
     @UserId() meId: number,
-    @Param('id') userId: string,
+    @ParamInt('id') userId: number,
   ): Promise<boolean> {
-    await this.socialFacade
-      .unfollow(meId, Number.parseInt(userId, 10))
-      .then((v) => v.getOrThrow());
+    await this.socialFacade.unfollow(meId, userId).then((v) => v.getOrThrow());
     return true;
   }
 }

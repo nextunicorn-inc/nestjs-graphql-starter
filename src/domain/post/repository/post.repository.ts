@@ -1,5 +1,10 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, FindOptionsWhere, Repository } from 'typeorm';
+import {
+  DeleteResult,
+  FindManyOptions,
+  FindOptionsWhere,
+  Repository,
+} from 'typeorm';
 import { PromiseResult, Result } from '@leejuyoung/result';
 import { convertTypeOrmErrorToDataError } from '~/infrastructure/utils/repository/convertTypeOrmErrorToDataError';
 import { DeepPartial } from 'typeorm/common/DeepPartial';
@@ -32,7 +37,7 @@ export class PostRepository {
   }
 
   async findMany(
-    findData: FindManyOptions<PostDto>,
+    findData: FindManyOptions<PostEntity>,
   ): PromiseResult<PostDto[], DataNotFoundError> {
     return Result.of(
       this.postEntityRepository
@@ -65,5 +70,10 @@ export class PostRepository {
           throw convertTypeOrmErrorToDataError(e, 'post');
         }),
     );
+  }
+  async delete(id: number): Promise<Result<DeleteResult, DataConflictError>> {
+    return Result.of(async () => {
+      return this.postEntityRepository.delete(id);
+    });
   }
 }

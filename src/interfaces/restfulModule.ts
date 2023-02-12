@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './user/users.controller';
+import { UsersOtherController } from './user/usersOther.controller';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthCheckController } from '~/interfaces/common/healthCheck.controller';
 import { UserAppModule } from '~/application/user/userApp.module';
@@ -10,7 +10,8 @@ import { ConfigureModule } from '~/infrastructure/configure/configure.module';
 import { AuthController } from '~/interfaces/auth/auth.controller';
 import { PostAppModule } from '~/application/post/postApp.module';
 import { SocialAppModule } from '~/application/social/socialApp.module';
-import { UserOneController } from '~/interfaces/user/userOne.controller';
+import { PostsController } from '~/interfaces/post/posts.controller';
+import { UsersMeController } from '~/interfaces/user/usersMe.controller';
 
 const appModules: ModuleMetadata['imports'] = [
   UserAppModule,
@@ -27,9 +28,10 @@ const appModules: ModuleMetadata['imports'] = [
   ],
   providers: [AccessTokenStrategy],
   controllers: [
-    UsersController,
+    UsersMeController,
+    UsersOtherController,
+    PostsController,
     HealthCheckController,
-    UserOneController,
     AuthController,
   ],
 })

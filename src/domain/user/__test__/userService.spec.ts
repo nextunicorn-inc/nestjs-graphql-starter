@@ -1,6 +1,6 @@
 import { UserService } from '~/domain/user/user.service';
 import { Test } from '@nestjs/testing';
-import { InMemoryTypeOrmModule } from '~/infrastructure/utils/forTest/inMemoryTypeOrmModule';
+import { InMemoryTypeOrmModule } from '~/infrastructure/forTest/inMemoryTypeOrmModule';
 import { UserDomainModule } from '~/domain/user/userDomain.module';
 import * as assert from 'assert';
 import { DataConflictError } from '~/@shared/errors/@domain/dataConflictError';
