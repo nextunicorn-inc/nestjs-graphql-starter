@@ -1,7 +1,8 @@
 # NestJS Restful Boilerplate
-여기에는 아래 Philosophy가 녹아있는 Description이 있으면 어떨까요..?
 
 <strong> 시작하는 서비스를 위한 NestJS Boilerplate </strong>
+
+본 Boilerplate는 서비스의 `시작`에 초점을 맞추었습니다. 많은 서비스가 사용자 가치를 수호하며, 빠르게 성장하길 기원합니다.
 
 [템플릿 사용하기](https://github.com/nextunicorn-inc/nestjs-starter/generate)
 
@@ -34,7 +35,7 @@ nest.js에서 표준처럼 쓰이는 [TypeORM](https://typeorm.io/)을 이용합
 nest.js에서 제공하는 [swagger doc](https://docs.nestjs.com/openapi/introduction)이 설정되어있습니다. 
 
 ### Integration test
-기본적인 Integration test 가 구현되어 있습니다.
+기본적인 Integration test + github action coverage 기능이 구현되어 있습니다
 
 ## Domains
 
@@ -50,7 +51,7 @@ user간 following 에 대한 시스템
 
 ## Architecture
 
-![mermaid-diagram-2023-02-06-010423.png](.docs%2Fmermaid-diagram-2023-02-06-010423.png)
+![mermaid-diagram-2023-02-12-174255.png](.docs%2Fmermaid-diagram-2023-02-12-174255.png)
 ### Microserivce-like Layer + Domain-based 
 
 Micro-service는 대부분의 서비스에서 Overkill일 것이라 확신합니다. 하지만, micro-service 형태의 layer를 mono-service에서도 적용할 수 있습니다. 
@@ -65,14 +66,13 @@ Micro-service는 대부분의 서비스에서 Overkill일 것이라 확신합니
 #### Domain Layer내의 Rules
 - 다른 Domain을 참조할 수 없습니다.
 - 다른 Domain 내의 Entity와 Join 해서는 안됩니다.
-- 다른 Domain과는 Foreign key 또한 안 거는 것을 추천합니다. [참고](https://www.inflearn.com/questions/31969/cascade-%EC%98%B5%EC%85%98-%EC%A7%88%EB%AC%B8)
 - DDD에 대한 개념이 있으시다면 Domain내의 service들은 Aggregate Root로 간주하셔도 좋을 것 같습니다.
  
 
 ### Layer별 R&R
 #### Interface
 
-외부와의 접점을 나타냅니다. `Controller 구현체`, `Graqhql 구현체`, `view model` 등이 속합니다. 
+외부와의 접점을 나타냅니다. `Controller 구현체`, `Graqhql 구현체`, `view model(response)` 등이 속합니다. 
 
 - RestfulModule
   - API 계층을 나타냅니다.
