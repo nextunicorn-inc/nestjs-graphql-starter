@@ -6,6 +6,8 @@
 
 [템플릿 사용하기](https://github.com/nextunicorn-inc/nestjs-starter/generate)
 
+---
+
 ## Philosophy
 
 ### 정직하게. 
@@ -16,6 +18,8 @@
 여러 이상적인 디자인패턴보다는 문제를 해결하기 가장 적당한 디자인 패턴을 지향합니다.
 ### 유연하게. 
 항상 코드가 발전할 수 있음을 인지하고 개발합니다.
+
+---
 
 ## Features
 
@@ -29,13 +33,15 @@ JWT 기반의 토큰 인증을 구현해두었습니다. 자세한 내용은 [ne
 여러 IDE에서 동일한 code-style을 유지할 수 있도록 [Prettier](https://prettier.io/)를 사용합니다.
 
 ### TypeORM
-nest.js에서 표준처럼 쓰이는 [TypeORM](https://typeorm.io/)을 이용합니다.
+nest.js 공식문서에서 소개하는 [TypeORM](https://typeorm.io/)을 이용합니다.
 
 ### Swagger doc
 nest.js에서 제공하는 [swagger doc](https://docs.nestjs.com/openapi/introduction)이 설정되어있습니다. 
 
 ### Integration test
 기본적인 Integration test + github action coverage 기능이 구현되어 있습니다
+
+---
 
 ## Domains
 
@@ -48,6 +54,7 @@ email / password 기반 유저 관리 시스템
 ### social domain
 user간 following 에 대한 시스템
 
+---
 
 ## Architecture
 
@@ -107,7 +114,7 @@ Domain은 어려운 개념입니다. DDD에서 차용된 개념인 `domain` 은 
 외부 리소스 등을 사용하는 서비스들이 존재합니다. 또한, 여러 서비스에서 공통적으로 사용되는 유틸 및 리소스가 여기 정의됩니다.
 
 ### Result Pattern
-```javascript
+```typescript
  async findFollowerIdsByUserId(toUserId: number): Promise<Result<number[]>> {
    const result = await this.userFollowRepository.findMany({
      where: {
@@ -128,6 +135,8 @@ Domain은 어려운 개념입니다. DDD에서 차용된 개념인 `domain` 은 
 참고 
 - https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-result/
 - https://toss.tech/article/kotlin-result
+
+---
 
 ## 문의 및 PR
 
