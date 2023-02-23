@@ -1,12 +1,14 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import './infrastructure/utils/monkey-patch';
+import { NestFactory } from '@nestjs/core';
 import { MainModule } from './main.module';
 import { ValidationPipe } from '@nestjs/common';
 import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
-import { MainExceptionFilter } from '~/mainExceptionFilter';
+import { MainExceptionFilter } from '~/@shared/errors/mainException.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { validatorErrorFactory } from '~/@shared/errors/validatorError.factory';
 
 async function bootstrap() {
   // https://github.com/odavid/typeorm-transactional-cls-hooked
@@ -15,10 +17,13 @@ async function bootstrap() {
   patchTypeORMRepositoryWithBaseRepository(); // patch Repository with BaseRepository.
   const app = await NestFactory.create(MainModule);
   // https://docs.nestjs.com/techniques/validation#auto-validation
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      exceptionFactory: validatorErrorFactory,
+    }),
+  );
   // https://docs.nestjs.com/exception-filters#exception-filters-1
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new MainExceptionFilter(httpAdapter));
+  app.useGlobalFilters(new MainExceptionFilter());
 
   // https://docs.nestjs.com/security/cors
   app.enableCors();
@@ -34,4 +39,5 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
+
 bootstrap();

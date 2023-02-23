@@ -1,6 +1,8 @@
 import { BaseDataError } from './baseDataError';
-import { ErrorCodeType } from '../../enums/errorCodeType';
+import { ErrorCode } from '~/@shared/enums/errorCode';
 
 export class DataInvalidError extends BaseDataError {
-  code = ErrorCodeType.DATA_INVALID;
+  getCode(): string {
+    return ErrorCode.DATA_INVALID;
+  }
 }

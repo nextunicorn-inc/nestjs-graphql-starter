@@ -1,13 +1,13 @@
 import { INestApplication } from '@nestjs/common';
 import { createE2ETestApp } from '~/infrastructure/forTest/createE2ETestApp';
 import { createE2ETestUser } from '~/infrastructure/forTest/createE2ETestUser';
-import { UserResponse } from '~/interfaces/@response/user.response';
+import { UserGraph } from '~/interfaces/@graph/user.graph';
 import * as request from 'supertest';
 import * as assert from 'assert';
 
 describe('PostsController', () => {
   let app: INestApplication;
-  let me: UserResponse;
+  let me: UserGraph;
   let accessToken: string;
   let otherAccessToken: string;
   let postId: number;

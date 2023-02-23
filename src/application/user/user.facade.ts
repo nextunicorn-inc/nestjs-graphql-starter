@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '~/domain/user/user.service';
 import { AuthService } from '~/domain/auth/auth.service';
-import { CreateUserRequest } from '~/interfaces/@request/createUser.request';
+import { CreateUserInput } from '~/interfaces/@request/createUserInput';
 import { Result } from '@leejuyoung/result';
 import { validatePasswordWithHash } from '~/infrastructure/utils/password/validatePasswordWithHash';
 import { PasswordInvalidError } from '~/@shared/errors/user/passwordInvalidError';
@@ -14,12 +14,16 @@ export class UserFacade {
     private readonly authService: AuthService,
   ) {}
 
-  async register(createUserDto: CreateUserRequest) {
+  async register(createUserDto: CreateUserInput) {
     return this.userService.createUser(createUserDto);
   }
 
   async findOneById(id: number) {
     return this.userService.findOne(id);
+  }
+
+  async findMany(ids: number[]) {
+    return this.userService.findMany(ids);
   }
   async login(createSessionsRequest: CreateSessionsRequest) {
     const userResult = await this.userService.findOneByEmail(

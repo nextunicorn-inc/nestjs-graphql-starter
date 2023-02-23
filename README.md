@@ -81,7 +81,7 @@ Micro-service는 대부분의 서비스에서 Overkill일 것이라 확신합니
 
 외부와의 접점을 나타냅니다. `Controller 구현체`, `Graqhql 구현체`, `view model(response)` 등이 속합니다. 
 
-- RestfulModule
+- GraphqlModule
   - API 계층을 나타냅니다.
 
 #### Application

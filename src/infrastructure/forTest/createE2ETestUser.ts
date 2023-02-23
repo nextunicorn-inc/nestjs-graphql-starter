@@ -1,6 +1,6 @@
 import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { UserResponse } from '~/interfaces/@response/user.response';
+import { UserGraph } from '~/interfaces/@graph/user.graph';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 
 export const createE2ETestUser = async (app: INestApplication) => {
@@ -26,7 +26,7 @@ export const createE2ETestUser = async (app: INestApplication) => {
     .get('/users/me')
     .set({ Authorization: `Bearer ${accessToken}` })
     .expect(200);
-  const userMe = userMeResponse.body as UserResponse;
+  const userMe = userMeResponse.body as UserGraph;
 
   return {
     me: userMe,

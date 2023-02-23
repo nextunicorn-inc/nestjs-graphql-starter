@@ -1,14 +1,15 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
 
-export class CreateUserRequest {
-  @ApiProperty()
+@InputType()
+export class CreateUserInput {
+  @Field()
   @IsString()
   @IsEmail()
   @IsNotEmpty()
   readonly email: string;
 
-  @ApiProperty({ minLength: 8 })
+  @Field()
   @IsString()
   @MinLength(8)
   readonly password: string;

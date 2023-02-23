@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './infrastructure/database/database.module';
-import { RestfulModule } from './interfaces/restfulModule';
+import { GraphqlModule } from './interfaces/graphql.module';
 import { ConfigureModule } from '~/infrastructure/configure/configure.module';
 
 @Module({
-  imports: [ConfigureModule, DatabaseModule, RestfulModule],
+  imports: [ConfigureModule, DatabaseModule, GraphqlModule],
   controllers: [],
   providers: [],
 })

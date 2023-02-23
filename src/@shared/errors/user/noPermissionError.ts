@@ -1,8 +1,8 @@
 import { BaseError } from '~/@shared/errors/baseError';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { ErrorCode } from '~/@shared/enums/errorCode';
 
 export class NoPermissionError extends BaseError {
-  toHttpException(): HttpException {
-    return new HttpException('no_permission', HttpStatus.FORBIDDEN);
+  getCode(): string {
+    return ErrorCode.NO_PERMISSION;
   }
 }
